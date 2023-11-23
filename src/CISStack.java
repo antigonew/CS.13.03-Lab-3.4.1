@@ -1,22 +1,67 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.List;
 
 public class CISStack {
+    private Node top;
+    private int size;
 
-    // Linked list property.
+    public CISStack() {
+        top = null;
+        size = 0;
+    }
 
-    // Size property.
+    public void push(Integer data) {
+        Node newNode = new Node(data);
+        newNode.next = top;
+        top = newNode;
+        size++;
+    }
 
-    // Constructor.
+    public Integer pop() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        Integer data = top.data;
+        top = top.next;
+        size--;
+        return data;
+    }
 
-    // Push. This method pushes a value onto the top of the stack.
+    public boolean isEmpty() {
+        return size == 0;
+    }
 
-    // Pop. This method pops a value from the top of the stack.
+    public int size() {
+        return size;
+    }
 
-    // isEmpty. Returns a boolean indicating whether the linked list is empty.
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CISStack{stack=[");
+        Node current = top;
+        List<Integer> elements = new ArrayList<>();
+        while (current != null) {
+            elements.add(current.data);
+            current = current.next;
+        }
+        for (int i = elements.size() - 1; i >= 0; i--) {
+            sb.append(elements.get(i));
+            if (i > 0) {
+                sb.append(", ");
+            }
+        }
+        sb.append("], size=").append(size).append("}");
+        return sb.toString();
+    }
+    private static class Node {
+        private Integer data;
+        private Node next;
 
-    // size. Returns the size of the queue.
-
-    // toString. Returns a description of the queue in, for example, the following format:
-    // CISStack{stack=[7, 11], size=2}
-
+        public Node(Integer data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
 }
